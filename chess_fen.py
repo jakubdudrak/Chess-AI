@@ -1,6 +1,19 @@
 import numpy as np
 import chess
 
+def map_pieces_to_squares(results, model, all_centers):
+    piece_square_map = []
+    for r in results:
+        boxes = r.boxes
+        for box in boxes:
+            b = box.xyxy[0].cpu().numpy()
+            c = box.cls
+            bottom_center_x = (b[0] + b[2]) / 2
+            bottom_center_y = b[3]
+            assigned_square = min(range(len(all_centers)), key=lambda i: np.sqrt((bottom_center_x - all_centers[i][0]) ** 2 + (bottom_center_y - all_centers[i][1]) ** 2))
+            piece_square_map.append((model.names[int(c)], assigned_square))
+    return piece_square_map
+
 def generate_fen_from_mapped_pieces(piece_square_map):
     board = [[" " for _ in range(8)] for _ in range(8)]
     piece_symbols = {
