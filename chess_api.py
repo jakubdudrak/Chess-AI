@@ -2,7 +2,7 @@ import requests
 import json
 def send_fen_to_server(fen, mode="bestmove", depth=5):
     print("Sending Request to Server")
-    base_url = "http://localhost:8080/api/calculateMove"
+    base_url = "http://185.150.1.180:8080/api/calculateMove"
     params = {
         "fen": fen,
         "mode": mode,
