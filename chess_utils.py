@@ -20,7 +20,7 @@ def draw_move_arrow(img, start_square, end_square, centers):
     if start_square is not None and end_square is not None and centers is not None:
         start_point = square_number_to_center_coordinate(start_square, centers)
         end_point = square_number_to_center_coordinate(end_square, centers)
-        cv2.arrowedLine(img, start_point, end_point, (0, 255, 0), 2, tipLength=0.3)
+        cv2.arrowedLine(img, start_point, end_point, (0, 255, 0), 2, tipLength=0.01)
     else:
         print("No Squares Detected")
 

@@ -1,6 +1,5 @@
 import requests
 import json
-
 def send_fen_to_server(fen, mode="bestmove", depth=5):
     print("Sending Request to Server")
     base_url = "http://localhost:8080/api/calculateMove"
@@ -12,22 +11,24 @@ def send_fen_to_server(fen, mode="bestmove", depth=5):
     
     try:
         response = requests.get(base_url, params=params)
-        response.raise_for_status()
-        response_data = response.json()
-        print(response_data)
-        if 'data' in response_data and "bestmove" in response_data['data']:
-            data_string = response_data['data']
-            move = data_string.split()[1]
-            return move if move != '(none)' else None
+        response.raise_for_status()  
+        
+    
+        move_data = response.json()
+        move = move_data.get('move')  
+        
+        if move and move != '(none)':  
+            print(move)
+            return move
         else:
             print("No valid 'bestmove' found in the response.")
             return None
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
-        return None
     except requests.exceptions.RequestException as req_err:
         print(f"Request error occurred: {req_err}")
-        return None
     except json.JSONDecodeError as json_err:
         print(f"Error decoding JSON: {json_err}")
-        return None
+    return None
+
+#send_fen_to_server('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')

@@ -47,7 +47,6 @@ while True:
             
             piece_square_map = map_pieces_to_squares(results, model, all_centers)
             fen_string = generate_fen_from_mapped_pieces(piece_square_map)
-            print(fen_string)
             if last_FEN != "" and fen_string != last_FEN:
                 move = send_fen_to_server(fen_string)
                 if move:
